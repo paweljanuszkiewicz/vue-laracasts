@@ -13,7 +13,15 @@
 </head>
 <body>
     <div id="root">
-        <button :disabled="isDisabled" :class="{ 'is-loading': isLoading }" @click="toggleLoading">Toggle me</button>
+        <h1>All tasks</h1>
+        <ul>
+            <li v-for="task in tasks" v-text="task.description"></li>
+        </ul>
+
+        <h1>Incomplete tasks</h1>
+        <ul>
+            <li v-for="task in incompleteTasks" v-text="task.description"></li>
+        </ul>
     </div>
 
     <script src="https://unpkg.com/vue"></script>
@@ -21,13 +29,20 @@
         var app = new Vue({
             el: '#root',
             data: {
-                isLoading: false,
-                isDisabled: false
+                tasks: [
+                    { description: 'Go to the store', completed: true },
+                    { description: 'Finish screencast', completed: false },
+                    { description: 'Make donation', completed: false },
+                    { description: 'Clear inbox', completed: false },
+                    { description: 'Make dinner', completed: false },
+                    { description: 'Clean room', completed: true }
+                ]
             },
             methods: {
-                toggleLoading() {
-                    this.isLoading = !(this.isLoading);
-                    this.isDisabled = !(this.isDisabled);
+            },
+            computed: {
+                incompleteTasks() {
+                    return this.tasks.filter(task => !task.completed);
                 }
             }
         });
